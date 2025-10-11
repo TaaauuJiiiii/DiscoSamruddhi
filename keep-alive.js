@@ -20,8 +20,9 @@ const server = http.createServer((req, res) => {
     }
 });
 
-server.listen(PORT, () => {
+server.listen(PORT, '0.0.0.0', () => {
     console.log(`Keep-alive server running on port ${PORT}`);
+    console.log(`Health check available at http://localhost:${PORT}/health`);
 });
 
 module.exports = server;

@@ -94,8 +94,15 @@ client.on('messageCreate', async (message) => {
     }
 });
 
-// Log in to Discord with your bot's token
-client.login(process.env.DISCORD_TOKEN);
+// Start keep-alive server FIRST for Render health checks
+const keepAliveServer = require('./keep-alive');
 
-// Start keep-alive server for uptime monitoring (Render deployment)
-require('./keep-alive');
+// Log in to Discord with your bot's token after server starts
+client.login(process.env.DISCORD_TOKEN)
+    .then(() => {
+        console.log('Discord bot logged in successfully!');
+    })
+    .catch((error) => {
+        console.error('Failed to login to Discord:', error);
+        process.exit(1);
+    });
