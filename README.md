@@ -8,6 +8,7 @@ A Discord bot powered by Google Gemini AI with a unique, sarcastic personality. 
 - 💬 Responds to mentions in servers
 - 📨 Supports Direct Messages
 - 🎭 Custom personality system with safety guardrails
+- 🌏 **Responds in Roman Hindi by default** (Hindi written in English script)
 - ⚡ Fast and efficient
 
 ## Prerequisites
@@ -81,6 +82,10 @@ Example:
 ```
 @Samruddhi hello there!
 ```
+
+**Note:** The bot responds in **Roman Hindi** (Romanagari/Hinglish) by default. This means Hindi written using English letters.
+
+Example response: "Kya baat hai! Tum phir se aa gaye!"
 
 ## Hosting
 
