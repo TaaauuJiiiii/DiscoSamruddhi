@@ -1,0 +1,23 @@
+{
+  "name": "samruddhi-discord-bot",
+  "version": "1.0.0",
+  "description": "A Discord bot powered by Google Gemini AI with a unique personality",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "node test-api.js"
+  },
+  "keywords": ["discord", "bot", "gemini", "ai"],
+  "author": "",
+  "license": "MIT",
+  "type": "commonjs",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "@google/generative-ai": "^0.24.1",
+    "axios": "^1.12.2",
+    "discord.js": "^14.23.2",
+    "dotenv": "^17.2.3"
+  }
+}
