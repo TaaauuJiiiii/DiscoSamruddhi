@@ -22,7 +22,6 @@ A Discord bot powered by Google Gemini AI with a unique, sarcastic personality. 
 
 ```bash
 git clone <your-repo-url>
-cd Chatbot
 ```
 
 ### 2. Install Dependencies
@@ -108,7 +107,6 @@ Chatbot/
 ├── index.js          # Main bot file
 ├── test-api.js       # API testing script
 ├── package.json      # Dependencies and scripts
-├── .env              # Environment variables (not in repo)
 ├── .env.example      # Example environment file
 ├── .gitignore        # Git ignore rules
 └── README.md         # This file
@@ -143,9 +141,6 @@ You can modify the bot's personality by editing the `systemPrompt` variable in `
 
 MIT License - Feel free to modify and use as you wish!
 
-## Contributing
-
-Pull requests are welcome! Feel free to improve the bot.
 
 ---
 
