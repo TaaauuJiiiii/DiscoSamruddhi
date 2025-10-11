@@ -94,7 +94,6 @@ This bot can be hosted on various platforms:
 ### Free Options:
 - **Render** (recommended): 750 hours/month free
 - **Railway**: $5 free credit/month
-- **Fly.io**: Free tier with 3 VMs
 - **Oracle Cloud**: Free tier forever (requires setup)
 
 ### Deployment Steps (Render):
@@ -113,15 +112,12 @@ This bot can be hosted on various platforms:
 ## Project Structure
 
 ```
-Chatbot/
 ├── index.js          # Main bot file
 ├── keep-alive.js     # HTTP server for uptime monitoring
 ├── package.json      # Dependencies and scripts
-├── render.yaml       # Render deployment config
 ├── .env.example      # Example environment file
 ├── .gitignore        # Git ignore rules
 ├── README.md         # This file
-└── DEPLOYMENT.md     # Complete deployment guide
 ```
 
 ## Customization
