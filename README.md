@@ -93,23 +93,30 @@ This bot can be hosted on various platforms:
 - **Oracle Cloud**: Free tier forever (requires setup)
 
 ### Deployment Steps (Render):
+
+**Quick Steps:**
 1. Push your code to GitHub
 2. Sign up at [render.com](https://render.com)
 3. Create a new "Web Service"
 4. Connect your GitHub repository
 5. Add environment variables (DISCORD_TOKEN, GEMINI_API_KEY)
 6. Deploy!
+7. Set up uptime monitor (UptimeRobot) to keep bot alive 24/7
+
+📖 **[See Complete Deployment Guide](DEPLOYMENT.md)** for detailed instructions with uptime monitoring!
 
 ## Project Structure
 
 ```
 Chatbot/
 ├── index.js          # Main bot file
-├── test-api.js       # API testing script
+├── keep-alive.js     # HTTP server for uptime monitoring
 ├── package.json      # Dependencies and scripts
+├── render.yaml       # Render deployment config
 ├── .env.example      # Example environment file
 ├── .gitignore        # Git ignore rules
-└── README.md         # This file
+├── README.md         # This file
+└── DEPLOYMENT.md     # Complete deployment guide
 ```
 
 ## Customization

@@ -1,13 +1,13 @@
 # Dependencies
 node_modules/
 package-lock.json
+render.yaml
 
 # Environment variables
 .env
 
 # Test files
 index1.js
-test-api.js
 
 # Logs
 *.log

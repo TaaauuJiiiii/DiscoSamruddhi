@@ -96,3 +96,6 @@ client.on('messageCreate', async (message) => {
 
 // Log in to Discord with your bot's token
 client.login(process.env.DISCORD_TOKEN);
+
+// Start keep-alive server for uptime monitoring (Render deployment)
+require('./keep-alive');
