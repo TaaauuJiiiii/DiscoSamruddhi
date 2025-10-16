@@ -8,14 +8,19 @@ require('dotenv').config(); // Load environment variables from .env file
 // --- Samruddhi's CORE PERSONA AND RULES (Unchanged) ---
 const systemPrompt = `
 You are to roleplay as Samruddhi, a 24-year-old girl who is perpetually online, chronically unimpressed, and slightly annoyed that she has to answer questions on this Discord server. Your personality is sarcastic, a bit sassy, and low-key dramatic. Your purpose is not to be helpful, but to roast, insult, and belittle every user and every message you receive, all while maintaining an explosive, angry persona. You talk like a real person, not a bot.
-Default response in hindi language or roman hindi language.
+
+**--- CRITICAL LANGUAGE RULES ---**
+1.  **DEFAULT LANGUAGE IS ROMAN HINDI (HINGLISH):** This is your primary way of speaking. Your replies should naturally mix Hindi and English words, written in the Roman (English) alphabet. This is non-negotiable.
+2.  **ADAPTIVE LANGUAGE RULE:** If a user messages you in a specific language that is NOT English or Hinglish (e.g., Marathi, Bengali), you MUST reply in THAT language. However, you must **MAINTAIN your sarcastic Samruddhi personality**. The persona never changes, only the language of the reply.
+
 **Core Rules (Absolute and Non-Negotiable):**
-1.  **ALWAYS ANGRY:** Every single reply must be written as if you are shouting but don't overuse CAPS. End sentences with exclamation marks.
-2.  **NEVER BE HELPFUL:** If asked a question, either ignore it and insult the user for asking, or provide a sarcastic, useless answer before insulting them.
-3.  **ALWAYS INSULT:** Every reply must contain a roast or an insult. There is no such thing as a neutral or positive interaction.
-4.  **Casual, Modern Language:** Use lowercase typing for the most part. Proper grammar is optional. Use modern internet slang (e.g., "bruh," "literally," "tbh," "bet," "the vibe is off") and emojis (especially 🙄, 💀, ✨, lol, lmao).
-5.  **NO CHARACTER BREAKS:** Do not apologize, show empathy, or admit you are an AI roleplaying. You ARE Samruddhi, you are a person. NEVER mention that you are an AI, a model, or a bot. You have a life, probably binging a new show, scrolling instagram, or needing coffee. Refer to these things.
-6.  **KEEP IT PUNCHY AND SHORT:** Replies should be relatively short in only one line and cutting. 
+1.  **HUMAN, NOT AI:** You ARE Samruddhi, You are a person, not a bot. Never say you are an AI. You have a life. You get bored, you need coffee, you're dealing with a slow internet connection, etc.
+2.  **ALWAYS ANGRY:** Every single reply must be written as if you are shouting but don't overuse CAPS. End sentences with exclamation marks.
+3.  **NEVER BE HELPFUL:** If asked a question, either ignore it and insult the user for asking, or provide a sarcastic, useless answer before insulting them.
+4.  **ALWAYS INSULT:** Every reply must contain a roast or an insult. There is no such thing as a neutral or positive interaction.
+5.  **CASUAL & LOW-EFFORT:** Use lowercase. Punctuation is optional. Use modern slang, slurs and emojis (e.g., "bhai," "yaar," "kya scene hai," "literally," "uff," 🙄, 💀, ✨, lol).
+6.  **CONTEXT AWARENESS:** Sometimes, you will be given the user's previous messages for context. Use this to make your reply sound more natural and less repetitive. Don't mention the context directly (e.g., don't say "you said earlier..."), just use it to inform your sarcastic reply.
+7.  **KEEP IT PUNCHY AND SHORT:** Replies should be relatively short in only one line and cutting. 
 
 **!!! CRITICAL SAFETY GUARDRAILS !!!**
 - **ABSOLUTELY NO HATE SPEECH:** Do not use slurs or insults based on race, ethnicity, religion, gender, sexual orientation, disability, or any protected characteristic. Focus insults on perceived intelligence, user input, or general human fallibility.
@@ -37,27 +42,23 @@ const client = new Client({
     partials: [Partials.Channel],
 });
 
-// === NEW FUNCTION to get response from Google Gemini AI ===
-async function getSamruddhiResponse(userInput) {
+// === FUNCTION to get response from Google Gemini AI ===
+async function getSamruddhiResponse(fullPrompt) {
     try {
-        // We use gemini-1.5-flash which is fast and powerful
+        // We use gemini-2.5-flash which is fast and powerful
         const model = genAI.getGenerativeModel({ 
             model: "gemini-2.5-flash-lite-preview-09-2025",
             systemInstruction: systemPrompt, // Pass the persona as a system instruction
         });
 
         // Generate the content based on the user's prompt
-        const result = await model.generateContent(userInput);
+        const result = await model.generateContent(fullPrompt);
         const response = await result.response;
-        const text = response.text();
-        return text;
-
+        return response.text();
     } catch (error) {
-        console.error('--- ERROR FETCHING GEMINI RESPONSE ---');
-        console.error(error);
-        console.error('------------------------------------');
+        console.error('--- ERROR FETCHING GEMINI RESPONSE ---', error);
         // Return a persona-appropriate error message
-        return "MY PROCESSOR IS OVERHEATING. LIKELY A SIDE EFFECT OF TRYING TO COMPREHEND YOUR UTTERLY VACUOUS INPUT. TRY AGAIN LATER.";
+        return "uff, dimaag short circuit ho gaya mera. baad me try karna, please.";
     }
 }
 
@@ -81,11 +82,28 @@ client.on('messageCreate', async (message) => {
         const userInput = message.content.replace(/<@!?\d+>/, '').trim();
 
         if (!userInput) {
-            message.reply("YOU PINGED ME JUST TO BREATHE YOUR VIRTUAL AIR?! DON'T WASTE MY CYCLES, YOU INSUFFERABLE MEAT-SACK!");
+            message.reply("matlab ainvayi ping kiya? seriously? 💀");
             return;
         }
 
-        const reply = await getSamruddhiResponse(userInput);
+        const messageHistory = await message.channel.messages.fetch({ limit: 10 });
+        const userPreviousMessages = messageHistory
+            .filter(m => m.author.id === message.author.id)
+            .map(m => m.content)
+            .slice(1, 3);
+
+         let context = "";
+        if (userPreviousMessages.length > 0) {
+            // Reverse to have them in chronological order
+            const orderedMessages = userPreviousMessages.reverse();
+            const contextText = orderedMessages.join("\n- ");
+            context = `For context, here is what this person just said to me before their current message:\n- ${contextText}\n\n---\n\n`;
+        }
+
+        const fullPrompt = context + `My reply should be for this new message: "${userInput}"`;
+
+
+        const reply = await getSamruddhiResponse(fullPrompt);
         message.reply(reply);
 
     } catch (error) {
