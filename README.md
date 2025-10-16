@@ -22,7 +22,7 @@ A Discord bot powered by Google Gemini AI with a unique, sarcastic personality. 
 ### 1. Clone the Repository
 
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/TaaauuJiiiii/DiscoSamruddhi
 ```
 
 ### 2. Install Dependencies
